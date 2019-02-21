@@ -207,6 +207,29 @@ function changeClasses(item, removeColor1, removeColor2, addColor){
 
 }
 
+//add to local stroage
+function addLocalS(item, array, arrayName){
+
+    
+
+    //check if localstorage is null
+    if (localStorage.getItem(arrayName) === null) {
+
+        array = [];
+    } else {
+
+        //add items to array from localstorage
+        array = JSON.parse(localStorage.getItem(arrayName));
+    }
+
+    //add new item to array
+    array.push(item.innerText);
+
+    //set localstorage
+    localStorage.setItem(arrayName, JSON.stringify(array));
+
+}
+
 
 //sortable js
 let todo = new Sortable(sortable1, {
@@ -220,43 +243,26 @@ let todo = new Sortable(sortable1, {
 
         if (evt.item === undefined) {
 
+            //when item is created
+
             const itemEl = evt;
 
-            
-
             let tasks;
-
-            if (localStorage.getItem('tasks') === null) {
-
-                tasks = [];
-            } else {
-
-                tasks = JSON.parse(localStorage.getItem('tasks'));
-            }
-
-            tasks.push(itemEl.innerText);
-
-            localStorage.setItem('tasks', JSON.stringify(tasks));
+            //add to local storage
+            addLocalS(itemEl, tasks, "tasks");
+            
 
         } else {
 
+            //when item is draged into list
+            
             const itemEl = evt.item;
 
             changeClasses(itemEl, "blue", "indigo", "deep-purple");
-
+            
             let tasks;
-
-            if (localStorage.getItem('tasks') === null) {
-
-                tasks = [];
-            } else {
-
-                tasks = JSON.parse(localStorage.getItem('tasks'));
-            }
-
-            tasks.push(itemEl.innerText);
-
-            localStorage.setItem('tasks', JSON.stringify(tasks));
+            //add to local storage
+            addLocalS(itemEl, tasks, "tasks");
         }
     },
     onRemove: function (evt) {
@@ -328,24 +334,16 @@ let inProgress = new Sortable(sortable2, {
 
     onAdd: function (evt) {
         let itemEl = evt.item;
-        changeClasses(itemEl, "deep-purple", "blue", "indigo");
-
-        // document.getElementById('placeholder1').style.display = "none";
-
 
         let progress;
 
-        if (localStorage.getItem('progress') === null) {
+        changeClasses(itemEl, "deep-purple", "blue", "indigo");
 
-            progress = [];
-        } else {
+        
+        // document.getElementById('placeholder1').style.display = "none";
 
-            progress = JSON.parse(localStorage.getItem('progress'));
-        }
-
-        progress.push(itemEl.innerText);
-
-        localStorage.setItem('progress', JSON.stringify(progress));
+        //add to local storage
+        addLocalS(itemEl, progress, 'progress');
 
     },
     onRemove: function (evt) {
@@ -409,24 +407,14 @@ let todoDone = new Sortable(sortable3, {
 
     onAdd: function (evt) {
         let itemEl = evt.item;
-        changeClasses(itemEl, "deep-purple", "indigo", "blue");
-
-
-        // document.getElementById('placeholder2').style.display = "none";
-
         let done;
 
-        if (localStorage.getItem('done') === null) {
+        changeClasses(itemEl, "deep-purple", "indigo", "blue");
+        
+        // document.getElementById('placeholder2').style.display = "none";
 
-            done = [];
-        } else {
-
-            done = JSON.parse(localStorage.getItem('done'));
-        }
-
-        done.push(itemEl.innerText);
-
-        localStorage.setItem('done', JSON.stringify(done));
+        //add to local storage
+        addLocalS(itemEl, done, 'done');
     },
     onRemove: function (evt) {
 
