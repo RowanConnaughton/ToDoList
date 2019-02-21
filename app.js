@@ -34,29 +34,33 @@ function loadEventListeners() {
 //get tasks from local Storage
 function getTasks() {
 
-    getTodo();
-    getProgress();
-    getDone();
+    let tasks;
+    let progress;
+    let done;
+
+    getFromLocal(tasks, 'tasks', 'deep-purple', taskList);
+    getFromLocal(progress, 'progress', 'indigo', progressList);
+    getFromLocal(done, 'done', 'blue', doneList);
 
     //get todos from local storage
-    function getTodo() {
-        let tasks;
+    function getFromLocal(array, arrayName, color, listName) {
+        
 
-        if (localStorage.getItem('tasks') === null) {
+        if (localStorage.getItem(arrayName) === null) {
 
-            tasks = [];
+            array = [];
         } else {
 
-            tasks = JSON.parse(localStorage.getItem('tasks'));
+            array = JSON.parse(localStorage.getItem(arrayName));
         }
 
-        tasks.forEach(function (task) {
+        array.forEach(function (task) {
 
             //create li element
             const li = document.createElement('li');
 
             //add class
-            li.classList.add("collection-item", "deep-purple", "darken-2", "white-text");
+            li.classList.add("collection-item", color, "darken-2", "white-text");
 
             //create text and append to li
             li.appendChild(document.createTextNode(task));
@@ -70,87 +74,7 @@ function getTasks() {
             //append link to li
             li.appendChild(link);
             //append li to ul
-            taskList.appendChild(li);
-
-        });
-    }
-
-    //get progress list from local storage
-    function getProgress() {
-        let progress;
-
-        if (localStorage.getItem('progress') === null) {
-
-            progress = [];
-        } else {
-
-            progress = JSON.parse(localStorage.getItem('progress'));
-            //remove place holder
-            // document.getElementById('placeholder1').style.display = "none";;
-
-
-        }
-
-        progress.forEach(function (task) {
-
-            //create li element
-            const li = document.createElement('li');
-
-            //add class
-            li.classList.add("collection-item", "indigo", "darken-2", "white-text");
-
-            //create text and append to li
-            li.appendChild(document.createTextNode(task));
-
-            //create new link element
-            const link = document.createElement('a');
-            //add class
-            link.className = 'delete-item secondary-content';
-            //add icon
-            link.innerHTML = '<i class="fas fa-times"></i>';
-            //append link to li
-            li.appendChild(link);
-            //append li to ul
-            progressList.appendChild(li);
-
-        });
-    }
-
-    //get done list from local storage
-    function getDone() {
-        let done;
-
-        if (localStorage.getItem('done') === null) {
-
-            done = [];
-        } else {
-
-            done = JSON.parse(localStorage.getItem('done'));
-
-            // document.getElementById('placeholder2').style.display = "none";
-        }
-
-        done.forEach(function (task) {
-
-            //create li element
-            const li = document.createElement('li');
-
-            //add class
-            li.classList.add("collection-item", "blue", "darken-2", "white-text");
-
-            //create text and append to li
-            li.appendChild(document.createTextNode(task));
-
-            //create new link element
-            const link = document.createElement('a');
-            //add class
-            link.className = 'delete-item secondary-content';
-            //add icon
-            link.innerHTML = '<i class="fas fa-times"></i>';
-            //append link to li
-            li.appendChild(link);
-            //append li to ul
-            doneList.appendChild(li);
+            listName.appendChild(li);
 
         });
     }
