@@ -39,13 +39,16 @@ function getTasks() {
     let progress;
     let done;
 
+
+
     getFromLocal(tasks, 'tasks', 'deep-purple', taskList);
     getFromLocal(progress, 'progress', 'indigo', progressList);
     getFromLocal(done, 'done', 'blue', doneList);
 
+
     //get todos from local storage
     function getFromLocal(array, arrayName, color, listName) {
-        
+
 
         if (localStorage.getItem(arrayName) === null) {
 
@@ -197,7 +200,7 @@ function clearTasksFromLocalStorage() {
 
 
 //change classes on list add
-function changeClasses(item, removeColor1, removeColor2, addColor){
+function changeClasses(item, removeColor1, removeColor2, addColor) {
 
     item.classList.remove(removeColor1);
     item.classList.remove(removeColor2);
@@ -205,11 +208,42 @@ function changeClasses(item, removeColor1, removeColor2, addColor){
 
 }
 
+//placholder toggle
+function placeHolder() {
+
+
+    let placeHolder1 = document.getElementById("placeholder1");
+    let placeHolder2 = document.getElementById("placeholder2");
+
+    const progressArray = JSON.parse(localStorage.getItem('progress'));
+    const doneArray = JSON.parse(localStorage.getItem('done'));
+
+
+
+    if (progressArray === null || progressArray.length === 0) {
+
+        placeHolder1.className = "show collection-item indigo darken-2 white-text not-draggable";
+    } else {
+        placeHolder1.className = "hide";
+    }
+
+
+    if (doneArray === null || doneArray.length === 0) {
+
+        placeHolder2.className = "show collection-item blue darken-2 white-text not-draggable";
+    } else {
+
+        placeHolder2.className = "hide";
+    }
+}
+
+//placholder toggle
+placeHolder();
 
 //add to local stroage
-function addLocalS(item, array, arrayName){
+function addLocalS(item, array, arrayName) {
 
-    
+
 
     //check if localstorage is null
     if (localStorage.getItem(arrayName) === null) {
@@ -231,7 +265,7 @@ function addLocalS(item, array, arrayName){
 
 
 //remove from local storage
-function removeLocalS(item, array, arrayName){
+function removeLocalS(item, array, arrayName) {
 
     if (localStorage.getItem(arrayName) === null) {
 
@@ -260,8 +294,8 @@ let todo = new Sortable(sortable1, {
 
 
     onAdd: function (evt) {
-        
-        
+
+
 
         if (evt.item === undefined) {
 
@@ -272,16 +306,16 @@ let todo = new Sortable(sortable1, {
             let tasks;
             //add to local storage
             addLocalS(itemEl, tasks, "tasks");
-            
+
 
         } else {
 
             //when item is draged into list
-            
+
             const itemEl = evt.item;
 
             changeClasses(itemEl, "blue", "indigo", "deep-purple");
-            
+
             let tasks;
             //add to local storage
             addLocalS(itemEl, tasks, "tasks");
@@ -300,7 +334,7 @@ let todo = new Sortable(sortable1, {
             //remove from local storage
             removeLocalS(itemEl, tasks, 'tasks');
 
-            
+
         } else {
 
             //when item is draged out of list
@@ -320,7 +354,7 @@ let todo = new Sortable(sortable1, {
 let inProgress = new Sortable(sortable2, {
     group: 'shared',
     animation: 150,
-
+    filter: '.not-draggable',
 
     onAdd: function (evt) {
         let itemEl = evt.item;
@@ -329,11 +363,12 @@ let inProgress = new Sortable(sortable2, {
 
         changeClasses(itemEl, "deep-purple", "blue", "indigo");
 
-        
-        // document.getElementById('placeholder1').style.display = "none";
 
         //add to local storage
         addLocalS(itemEl, progress, 'progress');
+
+        //placholder toggle
+        placeHolder();
 
     },
 
@@ -341,27 +376,30 @@ let inProgress = new Sortable(sortable2, {
 
         if (evt.item === undefined) {
             //when delete is clicked
- 
-             const itemEl = evt;
- 
-             let progress;
- 
+
+            const itemEl = evt;
+
+            let progress;
+
             //remove from local storage
-             removeLocalS(itemEl, progress, 'progress');
-            
- 
-         } else {
-             //when draged out of list
- 
-             let itemEl = evt.item;
- 
-             let progress;
- 
-             //remove from local storage
-             removeLocalS(itemEl, progress, 'progress');
-             
- 
-         }
+            removeLocalS(itemEl, progress, 'progress');
+
+            //placholder toggle
+            placeHolder();
+
+        } else {
+            //when draged out of list
+
+            let itemEl = evt.item;
+
+            let progress;
+
+            //remove from local storage
+            removeLocalS(itemEl, progress, 'progress');
+
+            //placholder toggle
+            placeHolder();
+        }
     }
 });
 
@@ -369,41 +407,50 @@ let inProgress = new Sortable(sortable2, {
 let todoDone = new Sortable(sortable3, {
     group: 'shared',
     animation: 150,
+    filter: '.not-draggable',
 
     onAdd: function (evt) {
         let itemEl = evt.item;
         let done;
 
         changeClasses(itemEl, "deep-purple", "indigo", "blue");
-        
-        // document.getElementById('placeholder2').style.display = "none";
+
+
 
         //add to local storage
         addLocalS(itemEl, done, 'done');
+
+        //placholder toggle
+        placeHolder();
     },
 
     onRemove: function (evt) {
 
         if (evt.item === undefined) {
             //when delete is clicked
-             const itemEl = evt;
- 
-             let done;
- 
-             removeLocalS(itemEl, done, 'done');
- 
- 
-         } else {
- 
-             //when item is draged out of list
- 
-             const itemEl = evt.item;
- 
-             let done;
- 
-             removeLocalS(itemEl, done, 'done');
- 
-         }
+            const itemEl = evt;
+
+            let done;
+
+            removeLocalS(itemEl, done, 'done');
+
+            //placholder toggle
+            placeHolder();
+
+        } else {
+
+            //when item is draged out of list
+
+            const itemEl = evt.item;
+
+            let done;
+
+            removeLocalS(itemEl, done, 'done');
+
+            //placholder toggle
+            placeHolder();
+
+        }
     }
 
 });

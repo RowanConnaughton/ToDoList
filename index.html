@@ -14,8 +14,9 @@
     <title>To Do List</title>
 
     <style>
-        .placeholder {
+        #placeholder1, #placeholder2 {
             opacity: 0.6;
+            cursor: not-allowed;
         }
 
         li {
@@ -39,6 +40,10 @@
             display: block;
             text-align: center;
             
+        }
+
+        #placeholder1{
+            display: block;
         }
         
     </style>
@@ -99,7 +104,7 @@
                     <h3>In Progress</h3>
                     <ul id="sortable2" class="collection  connectedSortable">
 
-                        <!-- <li id="placeholder1" class="collection-item indigo darken-2 white-text list1">Drag Items Here</li> -->
+                        <li id="placeholder1" class="collection-item indigo darken-2 white-text not-draggable">Drag Items Here</li>
 
 
 
@@ -116,7 +121,7 @@
                     <h3>Done</h3>
                     <ul id="sortable3" class="collection  connectedSortable">
 
-                        <!-- <li id="placeholder2" class="collection-item green darken-2 white-text list1">Drag Items Here</li> -->
+                        <li id="placeholder2" class="collection-item green darken-2 white-text not-draggable">Drag Items Here</li>
 
 
 
