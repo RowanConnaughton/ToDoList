@@ -31,6 +31,7 @@ function loadEventListeners() {
 
 }
 
+
 //get tasks from local Storage
 function getTasks() {
 
@@ -84,8 +85,6 @@ function getTasks() {
 
 
 
-
-
 //add task
 function addTask(e) {
 
@@ -116,8 +115,6 @@ function addTask(e) {
 
         //store in local storage
         todo.options.onAdd(li);
-
-
 
 
         //clear input
@@ -198,6 +195,7 @@ function clearTasksFromLocalStorage() {
     localStorage.clear();
 }
 
+
 //change classes on list add
 function changeClasses(item, removeColor1, removeColor2, addColor){
 
@@ -206,6 +204,7 @@ function changeClasses(item, removeColor1, removeColor2, addColor){
     item.classList.add(addColor);
 
 }
+
 
 //add to local stroage
 function addLocalS(item, array, arrayName){
@@ -226,6 +225,29 @@ function addLocalS(item, array, arrayName){
     array.push(item.innerText);
 
     //set localstorage
+    localStorage.setItem(arrayName, JSON.stringify(array));
+
+}
+
+
+//remove from local storage
+function removeLocalS(item, array, arrayName){
+
+    if (localStorage.getItem(arrayName) === null) {
+
+        array = [];
+    } else {
+
+        array = JSON.parse(localStorage.getItem(arrayName));
+    }
+
+    array.forEach(function (task, index) {
+        if (item.textContent === task) {
+            array.splice(index, 1);
+        }
+
+    });
+
     localStorage.setItem(arrayName, JSON.stringify(array));
 
 }
@@ -265,67 +287,35 @@ let todo = new Sortable(sortable1, {
             addLocalS(itemEl, tasks, "tasks");
         }
     },
+
     onRemove: function (evt) {
 
         if (evt.item === undefined) {
-            let itemEl = evt;
+            //when delete is clicked
 
-
+            const itemEl = evt;
 
             let tasks;
 
-            if (localStorage.getItem('tasks') === null) {
+            //remove from local storage
+            removeLocalS(itemEl, tasks, 'tasks');
 
-                tasks = [];
-            } else {
-
-                tasks = JSON.parse(localStorage.getItem('tasks'));
-            }
-
-            tasks.forEach(function (task, index) {
-                if (itemEl.textContent === task) {
-                    tasks.splice(index, 1);
-                }
-
-            });
-
-            localStorage.setItem('tasks', JSON.stringify(tasks));
-
-
-
+            
         } else {
 
-
-            let itemEl = evt.item;
+            //when item is draged out of list
+            const itemEl = evt.item;
 
             let tasks;
-
-            if (localStorage.getItem('tasks') === null) {
-
-                tasks = [];
-            } else {
-
-                tasks = JSON.parse(localStorage.getItem('tasks'));
-            }
-
-            tasks.forEach(function (task, index) {
-                if (itemEl.textContent === task) {
-                    tasks.splice(index, 1);
-                }
-
-            });
-
-            localStorage.setItem('tasks', JSON.stringify(tasks));
-
+            //remove from local storage
+            removeLocalS(itemEl, tasks, 'tasks');
 
         }
 
     }
 
-
-
-
 });
+
 
 let inProgress = new Sortable(sortable2, {
     group: 'shared',
@@ -346,60 +336,35 @@ let inProgress = new Sortable(sortable2, {
         addLocalS(itemEl, progress, 'progress');
 
     },
+
     onRemove: function (evt) {
 
         if (evt.item === undefined) {
-            let itemEl = evt;
-
-
-
-            let progress;
-
-            if (localStorage.getItem('progress') === null) {
-
-                progress = [];
-            } else {
-
-                progress = JSON.parse(localStorage.getItem('progress'));
-            }
-
-            progress.forEach(function (task, index) {
-                if (itemEl.textContent === task) {
-                    progress.splice(index, 1);
-                }
-
-            });
-
-            localStorage.setItem('progress', JSON.stringify(progress));
-
-
-
-        } else {
-
-            let itemEl = evt.item;
-
-            let progress;
-
-            if (localStorage.getItem('progress') === null) {
-
-                progress = [];
-            } else {
-
-                progress = JSON.parse(localStorage.getItem('progress'));
-            }
-
-            progress.forEach(function (task, index) {
-                if (itemEl.textContent === task) {
-                    progress.splice(index, 1);
-                }
-
-            });
-
-            localStorage.setItem('progress', JSON.stringify(progress));
-
-        }
-    },
+            //when delete is clicked
+ 
+             const itemEl = evt;
+ 
+             let progress;
+ 
+            //remove from local storage
+             removeLocalS(itemEl, progress, 'progress');
+            
+ 
+         } else {
+             //when draged out of list
+ 
+             let itemEl = evt.item;
+ 
+             let progress;
+ 
+             //remove from local storage
+             removeLocalS(itemEl, progress, 'progress');
+             
+ 
+         }
+    }
 });
+
 
 let todoDone = new Sortable(sortable3, {
     group: 'shared',
@@ -416,58 +381,29 @@ let todoDone = new Sortable(sortable3, {
         //add to local storage
         addLocalS(itemEl, done, 'done');
     },
+
     onRemove: function (evt) {
 
         if (evt.item === undefined) {
-            var itemEl = evt;
-
-
-
-            let done;
-
-            if (localStorage.getItem('done') === null) {
-
-                done = [];
-            } else {
-
-                done = JSON.parse(localStorage.getItem('done'));
-            }
-
-            done.forEach(function (task, index) {
-                if (itemEl.textContent === task) {
-                    done.splice(index, 1);
-                }
-
-            });
-
-            localStorage.setItem('done', JSON.stringify(done));
-
-
-
-        } else {
-
-            var itemEl = evt.item;
-
-            let done;
-
-            if (localStorage.getItem('done') === null) {
-
-                done = [];
-            } else {
-
-                done = JSON.parse(localStorage.getItem('done'));
-            }
-
-            done.forEach(function (task, index) {
-                if (itemEl.textContent === task) {
-                    done.splice(index, 1);
-                }
-
-            });
-
-            localStorage.setItem('done', JSON.stringify(done));
-
-        }
-    },
+            //when delete is clicked
+             const itemEl = evt;
+ 
+             let done;
+ 
+             removeLocalS(itemEl, done, 'done');
+ 
+ 
+         } else {
+ 
+             //when item is draged out of list
+ 
+             const itemEl = evt.item;
+ 
+             let done;
+ 
+             removeLocalS(itemEl, done, 'done');
+ 
+         }
+    }
 
 });
