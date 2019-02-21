@@ -198,6 +198,15 @@ function clearTasksFromLocalStorage() {
     localStorage.clear();
 }
 
+//change classes on list add
+function changeClasses(item, removeColor1, removeColor2, addColor){
+
+    item.classList.remove(removeColor1);
+    item.classList.remove(removeColor2);
+    item.classList.add(addColor);
+
+}
+
 
 //sortable js
 let todo = new Sortable(sortable1, {
@@ -233,9 +242,7 @@ let todo = new Sortable(sortable1, {
 
             const itemEl = evt.item;
 
-            itemEl.classList.remove("blue");
-            itemEl.classList.remove("indigo");
-            itemEl.classList.add("deep-purple");
+            changeClasses(itemEl, "blue", "indigo", "deep-purple");
 
             let tasks;
 
@@ -321,9 +328,7 @@ let inProgress = new Sortable(sortable2, {
 
     onAdd: function (evt) {
         let itemEl = evt.item;
-        itemEl.classList.remove("deep-purple");
-        itemEl.classList.remove("blue");
-        itemEl.classList.add("indigo");
+        changeClasses(itemEl, "deep-purple", "blue", "indigo");
 
         // document.getElementById('placeholder1').style.display = "none";
 
@@ -404,9 +409,7 @@ let todoDone = new Sortable(sortable3, {
 
     onAdd: function (evt) {
         let itemEl = evt.item;
-        itemEl.classList.remove("deep-purple");
-        itemEl.classList.remove("indigo");
-        itemEl.classList.add("blue");
+        changeClasses(itemEl, "deep-purple", "indigo", "blue");
 
 
         // document.getElementById('placeholder2').style.display = "none";
