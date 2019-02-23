@@ -185,9 +185,16 @@ function clearTasks(e) {
 
 
 
-
         //clear tasks form local storage
         clearTasksFromLocalStorage();
+
+        //create placeHolders
+        createPlaceHolder('placeholder1', 'indigo', progressList);
+        createPlaceHolder('placeholder2', 'blue', doneList);
+
+        //placholder toggle
+        placeHolder();
+
     }
 }
 
@@ -239,6 +246,25 @@ function placeHolder() {
 
 //placholder toggle
 placeHolder();
+
+function createPlaceHolder(id, color, listName) {
+
+    const li = document.createElement('li');
+
+    //add id
+    li.id = id;
+
+    //add class
+    li.classList.add("collection-item", color, "darken-2", "white-text", "not-draggable");
+
+    //create text and append to li
+    li.appendChild(document.createTextNode('Drag Items Here'));
+
+    //append li to ul
+    listName.appendChild(li);
+
+
+}
 
 //add to local stroage
 function addLocalS(item, array, arrayName) {
