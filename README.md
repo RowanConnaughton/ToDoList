@@ -1,6 +1,6 @@
 # To Do List 
 
-This is a To Do List created with javascript and Sortable JS
+This To Do List was created with javascript and [Sortable JS](https://github.com/SortableJS/Sortable)
 
 You can add tasks and drag them between categories and delete them.
 
